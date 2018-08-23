@@ -17,28 +17,26 @@ public class TokenParserPreFilter extends ZuulFilter {
 	@Override
 	public Object run() throws ZuulException {
 
-		System.out.println("In filter");
 		RequestContext ctx = RequestContext.getCurrentContext();
 		HttpServletRequest request = ctx.getRequest();
-		System.out.println(request.getRequestURI() +"...................");
-		
-			String token = request.getHeader("token");
 
-			String userId = tokenProvider.parseToken(token);
+		String token = request.getHeader("token");
 
-			ctx.addZuulRequestHeader("userId", userId);
+		String userId = tokenProvider.parseToken(token);
 
-			return null;
+		ctx.addZuulRequestHeader("userId", userId);
+
+		return null;
 	}
 
 	@Override
 	public boolean shouldFilter() {
 		RequestContext ctx = RequestContext.getCurrentContext();
 		HttpServletRequest request = ctx.getRequest();
-		if (request.getRequestURI().startsWith("/note/")){
+		if (request.getRequestURI().startsWith("/note/")) 
 			return true;
-		}
-			return false;
+		return false;
+		
 	}
 
 	@Override
